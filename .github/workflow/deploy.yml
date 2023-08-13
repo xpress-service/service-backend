@@ -1,0 +1,20 @@
+name: Development - Build and Deploy
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  development:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - run: echo Hello World
+      - name: upload
+        uses: SamKirkland/FTP-Deploy-Action@3.1.1
+        with:
+          ftp-server: ftp://nl1-ss105.a2hosting.com/servicexpress.com
+          ftp-username: servi151
+          ftp-password: ${{ secrets.SERVER_SECRETE }}
