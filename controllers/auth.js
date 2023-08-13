@@ -30,6 +30,10 @@ import expressAsyncHandler from 'express-async-handler';
 // REGISTER USER
 export const signup = async(req, res) => {
     //CHECK USER IF EXISTS
+ 
+     //CHECK USER IF EXISTS
+   
+  
     //CHECK USER IF EXISTS
 
   const q = "SELECT * FROM users WHERE email = ?";
