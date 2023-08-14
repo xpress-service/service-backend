@@ -5,7 +5,6 @@ import expressAsyncHandler from 'express-async-handler';
 
 const signin =  expressAsyncHandler (async (req, res) => {
     const { email, password } = req.body;
-
     const query = `SELECT * FROM users WHERE email = ?`;
     database.query(query, [email], async (err, rows) => {
       if (err) {
@@ -18,7 +17,6 @@ const signin =  expressAsyncHandler (async (req, res) => {
         res.send({
           id: user.id,
           email: user.email,
-          isAdmin: user.isAdmin,
           token: generateToken(user),
         });
       } else {
@@ -26,5 +24,30 @@ const signin =  expressAsyncHandler (async (req, res) => {
       }
     });
   })
+  const adminSignin =  expressAsyncHandler (async (req, res) => {
+    const { email, password } = req.body;
+    const query = `SELECT * FROM admin WHERE email = ?`;
+    database.query(query, [email], async (err, rows) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).send({ message: 'Database error' });
+        return;
+      }
+      const admin = rows[0];
+      if (admin && bcrypt.compareSync(password, admin.password)) {
+        res.send({
+          id: admin.id,
+          email: admin.email,
+          isAdmin: admin.isAdmin,
+          token: generateToken(admin),
+        });
+      } else {
+        res.status(401).send({ message: 'Invalid email or password' });
+      }
+    });
+  })
 
-  export default signin;
+  export default {
+    signin:signin,
+    adminSignin:adminSignin
+  };

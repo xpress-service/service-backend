@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
 to make api call in the frontend use
-localhost:{port}/api/users/signin
+localhost:{port}/api/users/signin => user login
+localhost:{port}/api/users/adminSignin => admin login
 */
 app.use('/api/users', userRouter)
-
 
 let nodeServer = app.listen(process.env.PORT, function () {
     let port = nodeServer.address().port;
