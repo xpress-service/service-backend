@@ -1,7 +1,8 @@
 import express  from 'express';
 import dotenv from 'dotenv';
 import authRouter  from './routes/auth.js';
-import userRouter  from './routes/user.js';
+import userRouter  from './routes/users.js';
+import orderRouter  from './routes/orders.js';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ localhost:{port}/api/users/signin
 */
 app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
+app.use('/api/orders', orderRouter)
 
 
 let nodeServer = app.listen(5000, function () {

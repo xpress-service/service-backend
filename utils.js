@@ -13,9 +13,8 @@ export const generateToken = (user) => {
 }
 
 export const isAuth = (req, res, next) => {
-    const authorization = req.headers.authorization;
-    if (authorization) {
-        const token = authorization.slice(7, authorization.length); // slice to get rid of Bearer
+    const token = req.headers.authorization; // slice to get rid of Bearer
+    if (token) {
         jwt.verify(
             token,
             process.env.JWTSECRET,
