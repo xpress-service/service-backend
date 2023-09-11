@@ -8,9 +8,9 @@ dotenv.config();
 
 
 
-import userRouter  from './routes/userRoute.js';
 import authRouter  from './routes/auth.js';
-// import userRouter  from './routes/user.js';
+import adminRouter from './routes/admin.js';
+import userRouter  from './routes/user.js';
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,11 +18,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
 to make api call in the frontend use
-localhost:{port}/api/users/signin
+localhost:{port}/api/auth/signin
 */
-app.use('/api/users', userRouter)
-app.use('/api/auth', authRouter)
-// app.use('/api/users', userRouter)
+app.use('/api/auth/signup', authRouter);
+app.use('/api/auth/signin', authRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/user', userRouter)
 
 
 let nodeServer = app.listen(process.env.PORT, function () {
