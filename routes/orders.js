@@ -4,7 +4,7 @@ import { createOrder, getOrder, getOrders, updateOrder } from "../controllers/or
 const router = express.Router();
 
 router.post('/', isAuth, createOrder);
-router.put("/:id/:vendorId", isAuth, updateOrder);
+router.put("/:id", isAuth, updateOrder);
 router.get("/:id", isAuth, getOrder);
 router.get("/", isAuth, getOrders);
 

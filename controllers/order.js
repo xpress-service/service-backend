@@ -2,11 +2,14 @@ import db from "../lib/database.js";
 
 // CREATE ORDER
 export const createOrder = async(req, res) => {
+    const {userId, vendorId, category} = req.body;
+    if(!userId || !vendorId || !category)  return res.status(400).json("Invalid request");
+
     const q = "INSERT INTO orders (`userId`, `vendorId`, `category`) VALUES (?)";
     const values = [
-        req.body.userId,
-        req.body.vendorId,
-        req.body.category,
+        userId,
+        vendorId,
+        category,
     ]
     db.query(q, [values], (err, data) =>{
         if(err) return res.status(500).json(err);
@@ -15,11 +18,10 @@ export const createOrder = async(req, res) => {
 }
 //UPDATE ORDER
 export const updateOrder = async(req, res) => {
-    const q = "UPDATE orders SET `status`=? WHERE `id`=? AND `vendorId`=?";
+    const q = "UPDATE orders SET `status`=? WHERE `id`=?";
     const values = [
         req.body.status, 
-        req.params.id, 
-        req.params.vendorId
+        req.params.id
     ]
 
     db.query(q, values, (err, data) => {

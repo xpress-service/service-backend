@@ -3,12 +3,14 @@ import dotenv from 'dotenv';
 import authRouter  from './routes/auth.js';
 import userRouter  from './routes/users.js';
 import orderRouter  from './routes/orders.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 
 const app = express();
 app.use(express.json());
+app. use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 /*
 to make api call in the frontend use

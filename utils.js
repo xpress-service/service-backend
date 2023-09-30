@@ -13,7 +13,7 @@ export const generateToken = (user) => {
 }
 
 export const isAuth = (req, res, next) => {
-    const token = req.headers.authorization; // slice to get rid of Bearer
+    const token = req.cookies.authorization; // slice to get rid of Bearer
     if (token) {
         jwt.verify(
             token,

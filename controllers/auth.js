@@ -22,9 +22,9 @@ import expressAsyncHandler from 'express-async-handler';
         //   isAdmin: user.isAdmin,
         //   token: generateToken(user),
         // });
-        res.header("authorization", token).status(200).json(user);
+        res.cookie("authorization", token).status(200).json(user);
       } else {
-        res.status(401).send({ message: 'Invalid email or password' });
+        res.status(400).send({ message: 'Invalid email or password' });
       }
     });
   })
