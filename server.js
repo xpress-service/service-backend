@@ -6,11 +6,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
-
 import authRouter  from './routes/auth.js';
 import adminRouter from './routes/admin.js';
 import userRouter  from './routes/user.js';
+import orderRouter from './routes/order.js';
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,7 +23,7 @@ app.use('/api/auth/signup', authRouter);
 app.use('/api/auth/signin', authRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/user', userRouter)
-
+app.use('/api/orders', orderRouter)
 
 let nodeServer = app.listen(process.env.PORT, function () {
     let port = nodeServer.address().port;

@@ -51,10 +51,11 @@ export const updateProfile = (async (req, res) => {
   database.query(q, values, (err, data) => {
     if (err) return res.status(500).json(err);
 
-    if (data.affectedRows === 0) {
+    if (data.id === 0) {
       return res.status(404).json("Profile not found.");
     }
     
     return res.status(200).json("Profile updated successfully.");
   });
 });
+
