@@ -2,29 +2,43 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "export DEBUG=SERVICE-EXPRESS:* & node ./bin/www",
+    "dev": "export DEBUG=SERVICE-EXPRESS:* & nodemon -r dotenv/config ./bin/www",
+    "lint": "eslint ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Servixpress Ltd",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "bunyan": "^1.8.15",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "express-fileupload": "^1.4.2",
+    "express-session": "^1.17.3",
+    "express-validation": "^4.1.0",
+    "generate-password": "^1.7.1",
+    "helmet": "^7.0.0",
+    "hpp": "^0.2.3",
+    "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.1",
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "request-ip": "^3.3.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   }
 }
-
