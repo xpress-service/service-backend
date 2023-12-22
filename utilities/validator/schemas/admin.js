@@ -8,7 +8,7 @@ const payload = Object.freeze({
 })
 
 /**
- * @description defines the req.body schema for creating an admin
+ * @description defines the req.body schema for creating a admin
  * @return {function(*=, *, *): void}
  */
 
@@ -16,11 +16,7 @@ function createAdminSchema() {
   return (req, res, next) => {
     const bodySchema = Joi.object({
       name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Admin's first name was not provided",
-      }),
-      
-      company: Joi.string().trim().required().messages({
-        "any.required": "Admin's company was not provided",
+        "any.required": "Admin's name was not provided",
       }),
       email: Joi.string().email().lowercase().required().messages({
         "any.required": "Admin's email address was not provided",
@@ -38,7 +34,7 @@ function createAdminSchema() {
 }
 
 /**
- * @description defines the req.body schema for an admin to log in
+ * @description defines the req.body schema for a admin to log in
  * @return {function(*=, *, *): void}
  */
 function adminLoginSchema() {
@@ -58,104 +54,66 @@ function adminLoginSchema() {
 
 function verifyAdminSchema() {
   return (req, res, next) => {
-    const bodySchema = Joi.object({
-      verification_code: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Verification code was not provided",
-      }),
-    })
-    validator(req, [bodySchema], [payload.BODY])
-    next()
-  }
-}
-
-function createCompanyAdminSchema() {
-  return (req, res, next) => {
-    const bodySchema = Joi.object({
-      company_id: Joi.number().required().messages({
-        "any.required": "Company id was not provided.",
-      }),
-      first_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Admin's first name was not provided",
-      }),
-      last_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Admin's last name was not provided",
-      }),
-      email: Joi.string().email().lowercase().trim().required().messages({
-        "any.required": "Admin's company email was not provided",
-      }),
-    })
-    validator(req, [bodySchema], [payload.BODY])
-    next()
-  }
-}
-
-function getCompanyAdminsSchema() {
-  return (req, res, next) => {
-    const paramsSchema = Joi.object({
-      id: Joi.string().required().messages({
-        "any.required": "Company id was not provided",
-      }),
-    })
-    validator(req, [paramsSchema], [payload.PARAMS])
-    next()
-  }
-}
-
-function updateCompanyAdminSchema() {
-  return (req, res, next) => {
-    const bodySchema = Joi.object({
-      first_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Admin's first name was not provided",
-      }),
-      last_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Admin's last name was not provided",
-      }),
-      email: Joi.string().email().lowercase().trim().required().messages({
-        "any.required": "Admin's company email was not provided",
-      }),
-    })
-    const paramsSchema = Joi.object({
-      id: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Id was not provided",
-      }),
-    })
-    validator(req, [bodySchema, paramsSchema], [payload.BODY, payload.PARAMS])
-    next()
-  }
-}
-
-function verifyCompanyAdminSchema() {
-  return (req, res, next) => {
-    const bodySchema = Joi.object({
-      verification_code: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Verification code was not provided",
-      }),
-    })
-    validator(req, [bodySchema], [payload.BODY])
-    next()
-  }
-}
-
-function deleteCompanyAdminSchema() {
-  return (req, res, next) => {
-    const paramsSchema = Joi.object({
-      id: Joi.string().required().messages({
-        "any.required": "Id was not provided",
-      }),
-    })
-    validator(req, [paramsSchema], [payload.PARAMS])
-    next()
-  }
-}
-
-function getAdminRoleSchema() {
-  return (req, res, next) => {
     const paramsSchema = Joi.object({
       code: Joi.string().required().messages({
         "any.required": "Verification code was not provided",
       }),
     })
     validator(req, [paramsSchema], [payload.PARAMS])
+    next()
+  }
+}
+
+function updateAdminSchema() {
+  return (req, res, next) => {
+    const bodySchema = Joi.object({
+      name: Joi.string().lowercase().trim().required().messages({
+        "any.required": "Admin's name was not provided",
+      }),
+      phone_number: Joi.string().trim().required().messages({
+        "any.required": "Admin's phone number was not provided",
+      }),
+      email: Joi.string().email().lowercase().required().messages({
+        "any.required": "Admin's email address was not provided",
+      }),
+      avatar: Joi.string().trim().required().messages({
+        "any.required": "Admin's avatar url was not provided",
+      }),
+      country: Joi.string().trim().required().messages({
+        "any.required": "Admin's country was not provided",
+      }),
+      birth: Joi.string().trim().required().messages({
+        "any.required": "Admin's date of birth was not provided",
+      }),
+      nin: Joi.string().messages({
+        "any.required": "Admin's linkedin url was not provided",
+      }),
+      experience: Joi.string().lowercase().trim().required().messages({
+        "any.required": "Admin's experience was not provided",
+      }),
+      currency: Joi.string().trim().required().messages({
+        "any.required": "Admin's currency was not provided",
+      }),
+      salary: Joi.string().trim().required().messages({
+        "any.required": "Admin's salary was not provided",
+      }),
+      skills: Joi.string().trim().required().messages({
+        "any.required": "Admin's skills was not provided",
+      }),
+    })
+    validator(req, [bodySchema], [payload.BODY])
+    next()
+  }
+}
+
+function getAdminSchema() {
+  return (req, res, next) => {
+    const querySchema = Joi.object({
+      email: Joi.string().email().lowercase().required().messages({
+        "any.required": "Admin's email address was not provided",
+      }),
+    })
+    validator(req, [querySchema], [payload.QUERY])
     next()
   }
 }
@@ -174,7 +132,7 @@ function changePasswordSchema() {
       }),
     })
     const paramsSchema = Joi.object({
-      id: Joi.string().trim().required().messages({
+      id: Joi.string().lowercase().trim().required().messages({
         "any.required": "Id was not provided",
       }),
     })
@@ -183,28 +141,11 @@ function changePasswordSchema() {
   }
 }
 
-function verifyNonAdminSchema() {
-  return (req, res, next) => {
-    const bodySchema = Joi.object({
-      verification_code: Joi.string().lowercase().trim().required().messages({
-        "any.required": "Verification code was not provided",
-      }),
-    })
-    validator(req, [bodySchema], [payload.BODY])
-    next()
-  }
-}
-
 module.exports = {
   createAdminSchema,
   adminLoginSchema,
   verifyAdminSchema,
-  createCompanyAdminSchema,
-  getCompanyAdminsSchema,
-  updateCompanyAdminSchema,
-  verifyCompanyAdminSchema,
-  deleteCompanyAdminSchema,
-  getAdminRoleSchema,
+  updateAdminSchema,
+  getAdminSchema,
   changePasswordSchema,
-  verifyNonAdminSchema,
 }

@@ -6,18 +6,22 @@ async function createTables(con, logger) {
    
     const createTableAdmin = `        
       CREATE TABLE IF NOT EXISTS admins (
-      id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      company_id BIGINT REFERENCES company_profiles(id),
-      name VARCHAR(50),
-      company VARCHAR(50),
-      role VARCHAR(50) NOT NULL,
-      email VARCHAR(100) NOT NULL,
-      password VARCHAR(100),
-      status VARCHAR(250),
-      verification_code VARCHAR(250) NOT NULL,
-      expire_at DATETIME,
-      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        phone_number VARCHAR(30) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        password VARCHAR(100) NOT NULL,
+        avatar VARCHAR(100) NOT NULL,
+        country VARCHAR(100) NOT NULL,
+        role VARCHAR(50) NOT NULL,
+        gender VARCHAR(50) NOT NULL,
+        nin VARCHAR(50) NOT NULL,
+        skills VARCHAR(255) NOT NULL,
+        verification_code VARCHAR(250) NOT NULL,
+        status VARCHAR(250) NOT NULL,
+        expire_at DATETIME NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
       );
     `
     const createTableUser = `        
@@ -40,9 +44,8 @@ async function createTables(con, logger) {
       updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
       );
     `
-  
-   
-  
+
+    
     const createRefreshToken = `
       CREATE TABLE IF NOT EXISTS refresh_tokens (
       id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,

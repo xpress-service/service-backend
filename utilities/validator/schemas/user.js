@@ -16,10 +16,7 @@ function createUserSchema() {
   return (req, res, next) => {
     const bodySchema = Joi.object({
       name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "User's first name was not provided",
-      }),
-      phone_number: Joi.string().trim().required().messages({
-        "any.required": "User's phone number was not provided",
+        "any.required": "User's name was not provided",
       }),
       email: Joi.string().email().lowercase().required().messages({
         "any.required": "User's email address was not provided",
@@ -70,11 +67,8 @@ function verifyUserSchema() {
 function updateUserSchema() {
   return (req, res, next) => {
     const bodySchema = Joi.object({
-      first_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "User's first name was not provided",
-      }),
-      last_name: Joi.string().lowercase().trim().required().messages({
-        "any.required": "User's last name was not provided",
+      name: Joi.string().lowercase().trim().required().messages({
+        "any.required": "User's name was not provided",
       }),
       phone_number: Joi.string().trim().required().messages({
         "any.required": "User's phone number was not provided",

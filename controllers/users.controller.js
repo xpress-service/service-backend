@@ -15,7 +15,7 @@ const {
   const requestIp = require("request-ip")
   
   /**
-   * @description A method to handle creating an applicant
+   * @description A method to handle creating an user
    * @param req - The request object representing the HTTP request
    * @param res - The response object representing the HTTP response
    * @returns {*}
@@ -39,7 +39,7 @@ const {
   
   exports.userLogin = exec(async (req, res) => {
     /**
-     * data needed to create a new user
+     * data needed to login a  user
      */
     const data = req.body
     const ip = requestIp.getClientIp(req)
