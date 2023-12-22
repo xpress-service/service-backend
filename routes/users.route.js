@@ -23,7 +23,7 @@ const {
 
 const router = express.Router()
 
-router.post("/user", createUserSchema(), createUser)
+router.post("/", createUserSchema(), createUser)
 router.get("/verify-user/:code", verifyUserSchema(), verifyUser)
 router.post("/login", userLoginSchema(), userLogin)
 router.put("/user/:id", updateUserSchema(), updateUser)
