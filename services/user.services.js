@@ -36,10 +36,9 @@ async function createUser(data) {
 
   const userQuery = "INSERT INTO users SET ?"
   const userQueryResult = await query(userQuery, {
-    name: data.first_name,
+    name: data.name,
     email: data.email,
-    role: "vendor",
-    phone_number: data.phone_number,
+    role: "user",
     password: hashPassword,
     status: "pending",
     verification_code: verificationToken.verificationCode,
@@ -53,10 +52,10 @@ async function createUser(data) {
 
   const allUser = "INSERT INTO all_users SET ?"
   await query(allUser, {
-    name: data.first_name,
+    name: data.name,
     user_id: userQueryResult.insertId,
     email: data.email,
-    type: "vendor",
+    type: "user",
   })
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -116,22 +115,22 @@ async function createUser(data) {
                     
                     <tr>
                         <td>
-                            <p>Hello ${data.first_name},</p>
-                            <p>Thanks for signing up on the Edge App.</p>
+                            <p>Hello ${data.name},</p>
+                            <p>Thanks for signing up on the ServiceXpress App.</p>
                             <p>Please click the button below to verify your account.</p>
                         </td>
                     </tr>
                     
                     <tr>
                         <td style="padding: 24px 0px;">
-                            <a href="${process.env.CLIENT_URL}/verify-user/${verificationToken.verificationCode}" target="_blank" style="background-color: blue; color: white; padding: 10px 20px; text-align: center; border: none; border-radius: 5px; text-decoration: none;">Verify My Account</a>
+                            <a href="${process.env.CLIENT_URL}/verify-user/${verificationToken.verificationCode}" target="_blank" style="background-color: orange; color: white; padding: 10px 20px; text-align: center; border: none; border-radius: 5px; text-decoration: none;">Verify My Account</a>
                         </td>
                     </tr>
                     
                     <tr>
                         <td>
                             <p>Thanks,</p>
-                            <p>The Edge Team</p>
+                            <p>The ServiceXpress Team</p>
                         </td>
                     </tr>  
                 </table>
@@ -161,7 +160,7 @@ async function userLogin(data, ip) {
   if (user[0].status !== "verified")
     throw new BadRequestError("Please verify your account!")
 
-  const getAllUserId = `SELECT * FROM all_users WHERE user_id = ? AND type = "applicant" `
+  const getAllUserId = `SELECT * FROM all_users WHERE user_id = ? AND type = "user" `
   const getAllUserResult = await query(getAllUserId, [user[0].id])
 
   const accessToken = new JsonWebToken({
@@ -263,21 +262,21 @@ async function verifyUser(code) {
                     
                 <tr>
                   <td>
-                    <p>Hello ${checkUserResult[0].first_name},</p>
+                    <p>Hello ${checkUserResult[0].name},</p>
                     <p>This is to inform you that your account has been successfully verified.</p>
                   </td>
                 </tr>
                     
                 <tr>
                   <td style="padding: 24px 0px;">
-                    <a href="${process.env.CLIENT_URL}/user-login" target="_blank" style="background-color: blue; color: white; padding: 10px 20px; text-align: center; border: none; border-radius: 5px; text-decoration: none;">Proceed to login</a>
+                    <a href="${process.env.CLIENT_URL}/user-login" target="_blank" style="background-color: orange; color: white; padding: 10px 20px; text-align: center; border: none; border-radius: 5px; text-decoration: none;">Proceed to login</a>
                   </td>
                 </tr>
                     
                 <tr>
                   <td>
                     <p>Thanks,</p>
-                    <p>The Edge Team</p>
+                    <p>The Service Team</p>
                   </td>
                 </tr>  
               </table>
@@ -306,16 +305,13 @@ async function updateUser(data, id) {
   const userData = {
     id: id,
     email: data.email,
-    first_name: data.first_name,
-    last_name: data.last_name,
+    name: data.name,
     phone_number: data.phone_number,
     avatar: data.avatar,
     country: data.country,
-    job_title: data.job_title,
-    linkedin: data.linkedin,
-    github: data.github,
-    resume: data.resume,
-    cover_letter: data.cover_letter,
+    nin: data.nin,
+    gender: data.gender,
+    birth: data.birth,
     experience: data.experience,
     currency: data.currency,
     salary: data.salary,
@@ -334,8 +330,7 @@ async function updateUser(data, id) {
   const allUser = "UPDATE all_users SET ? WHERE user_id = ?"
   await query(allUser, [
     {
-      first_name: data.first_name,
-      last_name: data.last_name,
+      name: data.name,
     },
     id,
   ])
@@ -358,7 +353,7 @@ async function updateUser(data, id) {
 
 async function getUser(email) {
   const getUserQuery =
-    "SELECT id, first_name, last_name, email, phone_number, avatar, role, country, job_title, linkedin, github, resume, cover_letter, experience, currency, salary, skills FROM users WHERE email = ?"
+    "SELECT id, name, email, phone_number, avatar, role, country, job_title, linkedin, github, resume, cover_letter, experience, currency, salary, skills FROM users WHERE email = ?"
   const getUserResult = await query(getUserQuery, [email])
 
   if (getUserResult.length < 1) throw new NotFoundError("User does not exist")
