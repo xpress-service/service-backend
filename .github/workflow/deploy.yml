@@ -2,7 +2,7 @@ name: Development - Build and Deploy
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   development:
@@ -16,34 +16,46 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
+
       - name: clean cache
         run: npm cache clean --force
+
       - name: delete package-lock.json
         run: rm package-lock.json
+
       - name: npm install
         run: npm install
+
       - name: install
         run: npm ci
+
       - name: build
         run: npm run build
         env:
           CI: false
+
       - name: copy build to home
-        run: cp -R build/* .
-      - name: delete build and node node_modules
-        run: rm -rf build node_modules
+        run: cp -R dist/* .
+
+      - name: delete build and node_modules
+        run: rm -rf dist node_modules
+
       - name: stage changes
         run: git add .
+
       - name: git email configuration
         run: git config --global user.email "myservicexpress247@gmail.com"
+
       - name: git name configuration
         run: git config --global user.name "service_xpress"
+
       - name: commit changes
         run: git commit -m "new build"
-      - name: upload
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3 
+
+      - name: Deploy to Server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ftp.nl1-ss105.a2hosting.com
           username: servi151
-          password: ${{ secrets.SERVER_SECRETE }}
+          password: ${{ secrets.SERVER_SECRET }}
           server-dir: api.servicexpress.biz/
