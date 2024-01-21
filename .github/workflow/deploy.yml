@@ -15,6 +15,6 @@ jobs:
       - name: upload
         uses: SamKirkland/FTP-Deploy-Action@3.1.1
         with:
-          ftp-server: ftp://nl1-ss105.a2hosting.com/api.ervicexpress.biz/cpanel
+          ftp-server: ftp://nl1-ss105.a2hosting.com/api.servicexpress.biz
           ftp-username: servi151
           ftp-password: ${{ secrets.SERVER_SECRETE }}
