@@ -6,24 +6,20 @@ on:
       - develop
 
 jobs:
-  development:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
 
-      - name: Clean cache and install dependencies
-        run: |
-          npm cache clean --force
-          rm -f package-lock.json
-          npm ci
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
         run: npm run build
@@ -31,23 +27,12 @@ jobs:
           CI: false
 
   deploy:
-    needs: development
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-
-      - name: Install FTP-Deploy-Action
-        run: npm install -g SamKirkland/FTP-Deploy-Action
-
       - name: FTP Deploy
-        run: ftp-deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ftp.nl1-ss105.a2hosting.com
           username: servi151
